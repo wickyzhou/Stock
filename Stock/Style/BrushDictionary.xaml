@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Ui.Style">
+    <Brush x:Key="GenericGreenBrush">#57ae57</Brush>
+    <Brush x:Key="GenericOrangeBrush">#f9a124</Brush>
+    <Brush x:Key="GenericRedBrush">#d34943</Brush>
+    <Brush x:Key="GenericBlueBrush">#43a9c7</Brush>
+    <Brush x:Key="GenericBackgroundCheckedBrush">#11998E</Brush>
+    <Brush x:Key="GenericForegroundCheckedBrush">snow</Brush>
+    
+    <Brush x:Key="GenericBackgroundUnCheckedBrush">transparent</Brush>
+    <Brush x:Key="GenericForegroundUnCheckedBrush">black</Brush>
+
+    <Brush x:Key="GenericMouseOverBrush">LightYellow</Brush>
+</ResourceDictionary>

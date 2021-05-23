@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Ui.Style">
+
+    <Color x:Key="GenericGreenColor">#57ae57</Color>
+    <Color x:Key="GenericOrangeColor">#f9a124</Color>
+    <Color x:Key="GenericRedColor">#d34943</Color>
+    <Color x:Key="GenericBlueColor">#43a9c7</Color>
+    <Color x:Key="GenericReadOnlyColor">#D3D3D3</Color>
+    <Color x:Key="GenericWhiteColor">#FFFAFA</Color>
+</ResourceDictionary>

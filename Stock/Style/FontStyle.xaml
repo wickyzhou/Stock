@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Ui.Style">
+
+
+    <FontFamily x:Key="Iconfont">/Resource/BaseIconfont1/#iconfont</FontFamily>
+
+    <FontFamily x:Key="Iconfont1">/Resource/BaseIconfont2/#iconfont</FontFamily>
+
+    <FontFamily x:Key="SchemaSeqIconfont">/Resource/SchemaSeq/#iconfont</FontFamily>
+    
+</ResourceDictionary>
