@@ -20,81 +20,84 @@ namespace GatherStockData
 
         static void Main(string[] args)
         {
+
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var service = new GatherService();
-            string jsonFile = Path.Combine(Directory.GetCurrentDirectory(), "Config.json");
-            Console.WriteLine("程序运行中，请勿关闭此控制台...");
-            ConfigModel config = JsonHelper.Readjson<ConfigModel>(jsonFile);
+            //var service = new GatherService();
+            //string jsonFile = Path.Combine(Directory.GetCurrentDirectory(), "Config.json");
+            //ConfigModel config = JsonHelper.Readjson<ConfigModel>(jsonFile);
 
-            if (config.LastGatherDate == DateTime.Now.Date.ToString("yyyyMMdd"))
-            {
-                if (config.IsTodayInTradingDays == "Y")
-                {
-                    var itemSources = service.GetItemSource().Where(x => x.Id > 1);
-                }
+            //var item1 = service.GetItemSource().Where(x => x.Id > 1).FirstOrDefault();
 
-            }
-            else //今天第一次采集
-            {
-                if (DateTime.Now.Hour * 60 + DateTime.Now.Minute > 540) // 【第一次采集必须在交易时间内9点开始？？？】
-                {
-             
-                    var model = service.GetItemSource(1);
-                    var tradingDate = GetCurrentTradingDate(model);
-                    if (tradingDate.Length == 8 && tradingDate.StartsWith("202"))
-                    {
-                        //if (tradingDate == config.LastTradingDate) //交易日没变，没有新数据，证明访问过
-                        //{
-                        //    config.LastGatherDate = DateTime.Now.Date.ToString("yyyyMMdd");
-                        //    config.IsTodayInTradingDays = "N";
-                        //    JsonHelper.ModifyJsonFile(jsonFile, config);
-                        //}
-                        if (1==1) //采集交易数据
-                        {
-                            var itemSources = service.GetItemSource().Where(x => x.Id > 1);
-                            foreach (var item in itemSources)
-                            {
-                                if (item.GroupId == 666) //循环间隔采集
-                                {
-                                    GatherAndSave(item);
-                                }
-                                else
-                                {
-                                    if (DateTime.Now.Hour == 15) //每日3点采集
-                                    {
 
-                                    }
-                                }
+            //if (config.LastGatherDate == DateTime.Now.Date.ToString("yyyyMMdd"))
+            //{
+            //    if (config.IsTodayInTradingDays == "Y")
+            //    {
+            //        var itemSources = service.GetItemSource().Where(x => x.Id > 1);
+            //    }
 
-                            }
+            //}
+            //else //今天第一次采集
+            //{
+            //    if (DateTime.Now.Hour * 60 + DateTime.Now.Minute > 540) // 【第一次采集必须在交易时间内9点开始？？？】
+            //    {
 
-                            config.LastTradingDate = DateTime.Now.Date.ToString("yyyyMMdd");
-                            config.LastGatherDate = DateTime.Now.Date.ToString("yyyyMMdd");
-                            config.IsTodayInTradingDays = "Y";
-                            JsonHelper.ModifyJsonFile(jsonFile, config);
-                        }
-                    }
-                    else
-                        FileHelper.WriteToDisk($"匹配交易日错误 response:{ tradingDate} ||");
-                }
-            }
+            //        var model = service.GetItemSource(1);
+            //        var tradingDate = GetCurrentTradingDate(model);
+            //        if (tradingDate.Length == 8 && tradingDate.StartsWith("202"))
+            //        {
+            //            //if (tradingDate == config.LastTradingDate) //交易日没变，没有新数据，证明访问过
+            //            //{
+            //            //    config.LastGatherDate = DateTime.Now.Date.ToString("yyyyMMdd");
+            //            //    config.IsTodayInTradingDays = "N";
+            //            //    JsonHelper.ModifyJsonFile(jsonFile, config);
+            //            //}
+            //            if (1==1) //采集交易数据
+            //            {
+            //                var itemSources = service.GetItemSource().Where(x => x.Id > 1);
+            //                foreach (var item in itemSources)
+            //                {
+            //                    if (item.GroupId == 666) //循环间隔采集
+            //                    {
+            //                        GatherAndSave(item);
+            //                    }
+            //                    else
+            //                    {
+            //                        if (DateTime.Now.Hour == 15) //每日3点采集
+            //                        {
+
+            //                        }
+            //                    }
+
+            //                }
+
+            //                config.LastTradingDate = DateTime.Now.Date.ToString("yyyyMMdd");
+            //                config.LastGatherDate = DateTime.Now.Date.ToString("yyyyMMdd");
+            //                config.IsTodayInTradingDays = "Y";
+            //                JsonHelper.ModifyJsonFile(jsonFile, config);
+            //            }
+            //        }
+            //        else
+            //            FileHelper.WriteToDisk($"匹配交易日错误 response:{ tradingDate} ||");
+            //    }
+            //}
 
 
 
 
             //GatherXiangGangZhongYangJieSuanYouXianGongSiChiCang(750);
 
-            //DayOfWeek day = DateTime.Now.DayOfWeek;
-            //int minute = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            DayOfWeek day = DateTime.Now.DayOfWeek;
+            int minute = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
 
-            ////判断是否为周末
-            //if (day == DayOfWeek.Sunday || day == DayOfWeek.Saturday)
-            //{
-            //    LogToDisk("周末不采集数据", 0, 0);
-            //    return;
-            //}
-            //GatherHuShenStockData(minute);
-            //GatherXiangGangZhongYangJieSuanYouXianGongSiChiCang(minute);
+            //判断是否为周末
+            if (day == DayOfWeek.Sunday || day == DayOfWeek.Saturday)
+            {
+                LogToDisk("周末不采集数据", 0, 0);
+                return;
+            }
+            GatherHuShenStockData(minute);
+            GatherXiangGangZhongYangJieSuanYouXianGongSiChiCang(minute);
 
         }
 
@@ -103,9 +106,9 @@ namespace GatherStockData
 
             if (((minute >= 540 && minute <= 690) || (minute >= 780 && minute <= 900)))
             {
-                // var span = ConvertDateTimeToTimeStamp();
-                //HttpClient client = new HttpClient();
-                //GetHuShenData(client, minute, span, 0);
+                var span = HttpHelper.ConvertDateTimeToTimeStamp(DateTime.Now, 3);
+                HttpClient client = new HttpClient();
+                GetHuShenData(client, minute, span, 0);
             }
         }
 
@@ -118,7 +121,7 @@ namespace GatherStockData
             //string responseBody = await response.Content.ReadAsStringAsync();
 
             // 同步调用
-            var task = client.GetAsync("https://hq.cmschina.com/market/json?funcno=21000&version=1&sort=24&order=1&type=9%253A0%253A2%253A18&curPage=1&rowOfPage=4000&field=1%253A2%253A3%253A21%253A22%253A23%253A24%253A14%253A8%253A13%253A4%253A5%253A9%253A12%253A10%253A11%253A16%253A58%253A6%253A7%253A15%253A17%253A18%253A19%253A25%253A27%253A31%253A28%253A48&timeStamp=" + span);
+            var task = client.GetAsync("https://hq.cmschina.com/market/json?funcno=21000&version=1&sort=24&order=1&type=9%253A0%253A2%253A18&curPage=1&rowOfPage=5000&field=1%253A2%253A3%253A21%253A22%253A23%253A24%253A14%253A8%253A13%253A4%253A5%253A9%253A12%253A10%253A11%253A16%253A58%253A6%253A7%253A15%253A17%253A18%253A19%253A25%253A27%253A31%253A28%253A48&timeStamp=" + span);
 
             var rep = task.Result;//在这里会等待task返回。
             while (rep.StatusCode != System.Net.HttpStatusCode.OK && i <= 5)
@@ -242,15 +245,9 @@ namespace GatherStockData
         /// <returns></returns>
         private static string GetResponseToApplingPatternExoression(ItemSourceModel model)
         {
-            HttpClient client = new HttpClient();
-            //HttpClient client = new HttpClient(new RetryHandler(new HttpClientHandler()));
-            // client.Timeout = new TimeSpan(0, 0, 8);
-            client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36");
-            client.DefaultRequestHeaders.Add("Connection", "Keep-Alive");
-
-            // "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36"
-            return SubstringResponse(HttpHelper.GetResponse(client, InsteadOfUrlParameter(model.GatherUrl)), model.ContentBegin ?? "", model.ContentEnd ?? ""); ;
+            var res = HttpHelper.HttpGetX(InsteadOfUrlParameter(model.GatherUrl), out _, "utf-8"); 
+            return SubstringResponse(res, model.ContentBegin ?? "", model.ContentEnd ?? "");
+            //return SubstringResponse(HttpHelper.GetResponse(InsteadOfUrlParameter(model.GatherUrl)), model.ContentBegin ?? "", model.ContentEnd ?? ""); 
         }
 
 
