@@ -83,9 +83,10 @@ namespace GatherStockData
             //}
 
 
-
+            //GetHuShenData(null, 900, null, 0);
 
             //GatherXiangGangZhongYangJieSuanYouXianGongSiChiCang(750);
+
 
             DayOfWeek day = DateTime.Now.DayOfWeek;
             int minute = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
@@ -101,6 +102,7 @@ namespace GatherStockData
 
         }
 
+        //
         private static void GatherHuShenStockData(int minute)
         {
 
@@ -136,7 +138,7 @@ namespace GatherStockData
 
             var task2 = rep.Content.ReadAsStringAsync();
             var responseBody = task2.Result;//在这里会等待task返回。
-
+                                            //  var responseBody = FileHelper.ReadFile(@"C:\Users\0\Desktop\20210526.txt");
 
             DataTable table = new DataTable();
             table.Columns.Add("GatherDate"); table.Columns.Add("GatherMinute"); table.Columns.Add("GatherTime"); table.Columns.Add("DaLei");

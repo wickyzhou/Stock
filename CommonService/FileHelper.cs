@@ -26,5 +26,18 @@ namespace Common
             using StreamWriter streamWriter = new StreamWriter(fileStream);
             streamWriter.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff} \t {message} ");
         }
+
+        //读取文件
+        public static string ReadFile(string fullName)
+        {
+            using (FileStream fsRead = new FileStream(fullName, FileMode.Open))
+            {
+                int fsLen = (int)fsRead.Length;
+                byte[] heByte = new byte[fsLen];
+                int r = fsRead.Read(heByte, 0, heByte.Length);
+                return Encoding.UTF8.GetString(heByte);
+            }
+
+        }
     }
 }
